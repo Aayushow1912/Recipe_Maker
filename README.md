@@ -34,15 +34,14 @@ It integrates a **REST API** for fetching live recipes and a **Room Database** f
 
 
  ## 🚀 Future Enhancements
-🧠 Add AI-based recipe recommendations
-📝 Include step-by-step cooking instructions
-🌙 Implement dark mode
-📤 Enable recipe sharing via social media
-
-## Open for Open Source Contribution 
+- 🧠 Add AI-based recipe recommendations
+- 📝 Include step-by-step cooking instructions
+- 🌙 Implement dark mode
+- 📤 Enable recipe sharing via social media
+- Open for Open Source Contribution 
 
 ## 🧑‍💻 Developer
 Aayush Tewari
 📍 Android Developer | Kotlin | Android SDK | Room Database
 
-🔗 [LIVE UI DEMO] (https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing) 
+## 🔗 [LIVE UI DEMO] (https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing) 
