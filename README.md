@@ -1,7 +1,7 @@
 # 🍳 Recipe Maker App
 
 **Recipe Maker** is a Kotlin-based Android application that allows users to explore, search, and manage recipes efficiently — even offline.  
-It integrates a **REST API** for fetching live recipes and a **Room Database** for caching data locally, ensuring smooth offline access and faster performance.
+It integrates **Room Database** for caching data locally, ensuring smooth offline access and faster performance.
 
 ---
 
@@ -38,10 +38,13 @@ It integrates a **REST API** for fetching live recipes and a **Room Database** f
 - 📝 Include step-by-step cooking instructions
 - 🌙 Implement dark mode
 - 📤 Enable recipe sharing via social media
-- Open for Open Source Contribution 
+
+## 🤝Contributions are always welcome!
 
 ## 🧑‍💻 Developer
 Aayush Tewari
 📍 Android Developer | Kotlin | Android SDK | Room Database
 
-## 🔗 [LIVE UI DEMO] (https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing) 
+## 🎥 Live UI Demo  
+✨ **[Watch the App in Action →](https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing)**
+
