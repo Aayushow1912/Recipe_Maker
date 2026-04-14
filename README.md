@@ -47,5 +47,4 @@ Aayush Tewari
 📍 Android Developer | Kotlin | Android SDK | Room Database
 
 ## 🎥 Live UI Demo  
-✨ **[Live Demo→]([https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing](https://drive.google.com/file/d/1EyN8mtyaMfwWg970Wbs5QHblPPLY9wLY/view?usp=sharing))**
-
+✨ [Live Demo →](https://drive.google.com/file/d/1EyN8mtyaMfwWg970Wbs5QHblPPLY9wLY/view?usp=sharing)
