@@ -11,6 +11,7 @@ It integrates **Room Database** for caching data locally, ensuring smooth offlin
 - 💾 **Offline Mode:** Access your favorite recipes even without an internet connection using local caching.  
 - ⚡ **Optimized Performance:** Reduced fetch time by **25%** through smart local storage.  
 - 🎨 **Modern UI:** Intuitive and responsive interface built with RecyclerView for a seamless user experience.
+- 🤖 **AI-Powered Recipe Search:** Integrated AI to generate and suggest new recipes dynamically based on user input and preferences.
 
 ---
 
@@ -46,5 +47,5 @@ Aayush Tewari
 📍 Android Developer | Kotlin | Android SDK | Room Database
 
 ## 🎥 Live UI Demo  
-✨ **[Live Demo→](https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing)**
+✨ **[Live Demo→]([https://drive.google.com/file/d/1FDKpxVEw73CBP_v-iF3LxnN_dKJgzqNs/view?usp=sharing](https://drive.google.com/file/d/1EyN8mtyaMfwWg970Wbs5QHblPPLY9wLY/view?usp=sharing))**
 
