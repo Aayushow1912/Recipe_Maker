@@ -1,7 +1,7 @@
 # 🍳 Recipe Maker App
 
 **Recipe Maker** is a Kotlin-based Android application that allows users to explore, search, and manage recipes efficiently — even offline.  
-It integrates **Room Database** for caching data locally, ensuring smooth offline access and faster performance.
+It now integrates **AI-powered recipe search**, enabling users to generate and discover new recipes dynamically based on their input, along with **Room Database** for local caching to ensure smooth offline access and faster performance.
 
 ---
 
