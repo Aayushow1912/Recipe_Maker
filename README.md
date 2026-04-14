@@ -17,14 +17,14 @@ It now integrates **AI-powered recipe search**, enabling users to generate and d
 
 ## 🧩 Tech Stack
 
-| Component | Technology |
-|------------|-------------|
-| **Language** | Kotlin |
-| **Framework** | Android SDK |
-| **Database** | Room Database |
-| **UI Components** | RecyclerView, CardView, Material Design |
+| Component        | Technology |
+|-----------------|-------------|
+| **Language**     | Kotlin |
+| **Framework**    | Android SDK |
+| **Database**     | Room Database |
+| **UI Components**| RecyclerView, CardView, Material Design |
 | **Architecture** | MVVM (Model-View-ViewModel) |
-
+| **AI Integration** | REST API-based AI (secured using API Key) for smart recipe suggestions, search enhancement, and dynamic content generation |
 ---
 
 ## ⚙️ Installation & Setup
