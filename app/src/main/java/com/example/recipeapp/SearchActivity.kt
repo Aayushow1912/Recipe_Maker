@@ -1,80 +1,117 @@
 package com.example.recipeapp
 
-import android.annotation.SuppressLint
-import android.inputmethodservice.InputMethodService
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import androidx.core.widget.addTextChangedListener
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
-import com.example.recipeapp.databinding.ActivityHomeBinding
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.view.View
+import android.widget.Toast
 import com.example.recipeapp.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding:ActivitySearchBinding
-    private lateinit var rvAdapter:SearchAdapter
-    private lateinit var datList:ArrayList<Recipe>
-    private lateinit var recipes: List<Recipe?>
-    @SuppressLint("ServiceCast")
+    private var isLoading = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.search.requestFocus()
-        var db = Room.databaseBuilder(this@SearchActivity, AppDatabase::class.java, "db_name")
-            .allowMainThreadQueries()
-            .fallbackToDestructiveMigration()
-            .createFromAsset("recipe.db")
-            .build()
-        var daoObject = db.getDao()
-        recipes = daoObject.getAll()
-        setUpRecyclerView()
+        binding.rvSearch.visibility = View.GONE
+
         binding.goBackHome.setOnClickListener{
             finish()
         }
-        binding.search.addTextChangedListener(object:TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-            }
+        binding.search.setOnEditorActionListener { _, actionId, event ->
+            val isImeAction =
+                actionId == EditorInfo.IME_ACTION_SEARCH ||
+                    actionId == EditorInfo.IME_ACTION_DONE ||
+                    actionId == EditorInfo.IME_ACTION_GO
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString() != "") {
-                    filterData(p0.toString())
+            val isEnterKey =
+                event?.keyCode == KeyEvent.KEYCODE_ENTER &&
+                    event.action == KeyEvent.ACTION_DOWN
+
+            if (isImeAction || isEnterKey) {
+                val query = binding.search.text.toString().trim()
+                if (query.isNotEmpty()) {
+                    hideKeyboard()
+                    askAiForRecipe(query)
                 } else {
-                    setUpRecyclerView()
+                    Toast.makeText(this, "Please enter recipe text first.", Toast.LENGTH_SHORT).show()
                 }
+                true
+            } else {
+                false
             }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-    }
-
-    private fun filterData(filterText: String) {
-        var filterData=ArrayList<Recipe>()
-        for(i in recipes.indices){
-            if(recipes[i]!!.tittle.lowercase().contains(filterText.lowercase())){
-                filterData.add(recipes[i]!!)
-            }
-            rvAdapter.filterList(filterList = filterData)
         }
     }
 
-    private fun setUpRecyclerView() {
-        datList = ArrayList()
-        binding.rvSearch.layoutManager =
-            LinearLayoutManager(this)
-        for (i in recipes!!.indices) {
-            if (recipes[i]!!.category.contains("Popular")) {
-                datList.add(recipes[i]!!)
+    private fun askAiForRecipe(recipeText: String) {
+        if (isLoading) return
+        setLoadingState(true)
+        Toast.makeText(this, "Getting AI response...", Toast.LENGTH_SHORT).show()
+        val openAiClient = OpenAiClient(BuildConfig.OPENROUTER_API_KEY)
+
+        Thread {
+            openAiClient.getRecipeResponse(
+                userRecipeText = recipeText,
+                onSuccess = { aiResponse ->
+                    runOnUiThread {
+                        setLoadingState(false)
+                        openRecipeActivityFromAiResponse(aiResponse)
+                    }
+                },
+                onError = { error ->
+                    runOnUiThread {
+                        setLoadingState(false)
+                        Log.e("SearchActivity", "OpenRouter error: $error")
+                        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    }
+                }
+            )
+        }.start()
+    }
+
+    private fun openRecipeActivityFromAiResponse(aiResponse: LlmRecipeResponse) {
+        val title = aiResponse.title.ifBlank { "AI Recipe" }
+        val time = aiResponse.time.ifBlank { "Time not specified" }
+        val ingredientsList = aiResponse.ingredients.ifEmpty { listOf("No ingredients provided") }
+        val stepsText = aiResponse.steps
+            .ifEmpty { listOf("No steps provided") }
+            .mapIndexed { index, step -> "${index + 1}. $step" }
+            .joinToString("\n\n")
+
+        val ingPayload = buildString {
+            append(time)
+            for (item in ingredientsList) {
+                append("\n")
+                append(item)
             }
         }
-        Log.v("items are",datList.toString())
-        rvAdapter = SearchAdapter(datList, this)
-        binding.rvSearch.adapter = rvAdapter
+
+        val intent = Intent(this, RecipeActivity::class.java).apply {
+            putExtra("tittle", title)
+            putExtra("des", stepsText)
+            putExtra("ing", ingPayload)
+            putExtra("img", aiResponse.imageUrl)
+        }
+        startActivity(intent)
+    }
+
+    private fun setLoadingState(loading: Boolean) {
+        isLoading = loading
+        binding.loadingBar.visibility = if (loading) View.VISIBLE else View.GONE
+        binding.search.isEnabled = !loading
+        binding.goBackHome.isEnabled = !loading
+    }
+
+    private fun hideKeyboard() {
+        val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(binding.search.windowToken, 0)
     }
 }
