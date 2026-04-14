@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.recipeapp.databinding.ActivityRecipeBinding
 
 class       RecipeActivity : AppCompatActivity() {
@@ -19,7 +20,13 @@ class       RecipeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Glide.with(this).load(intent.getStringExtra("img")).into(binding.itemImage)
+        val imgUrl = intent.getStringExtra("img").orEmpty()
+        Glide.with(this)
+            .load(imgUrl.ifBlank { "https://picsum.photos/seed/food/900/600" })
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .placeholder(R.drawable.loading_icon)
+            .error(R.drawable.loading_icon)
+            .into(binding.itemImage)
         binding.tittle.text=intent.getStringExtra("tittle")
         binding.stepData.text=intent.getStringExtra("des")
         var ing=intent.getStringExtra("ing")?.split("\n".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
